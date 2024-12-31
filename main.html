@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher CRUD</title>
+    <link rel="stylesheet" href="mstyles.css">
+    <style>
+        /* General Styles */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #eef2f7;
+    color: #2c3e50;
+}
+
+#form-container, #table-container {
+    width: 85%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #34495e;
+    font-weight: 600;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #1e70b5;
+    transform: translateY(-2px);
+}
+
+input[type="text"], input[type="time"], select {
+    width: calc(100% - 24px);
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus, input[type="time"]:focus, select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 6px rgba(52, 152, 219, 0.5);
+}
+
+/* Collapsible Button */
+.collapsible {
+    background-color: #2ecc71;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 15px;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.collapsible:hover, .active {
+    background-color: #27ae60;
+}
+
+.content {
+    padding: 20px;
+    display: none;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+}
+
+table thead {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ecf0f1;
+    font-size: 16px;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f2f3f4;
+}
+
+table tbody tr:hover {
+    background-color: #eaf2f8;
+}
+
+table th {
+    color: #2c3e50;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+table tbody tr td:last-child {
+    text-align: center;
+}
+
+/* Search Inputs */
+#search_name, #search_dept, #search_day {
+    width: 30%;
+    margin-right: 10px;
+    padding: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+#search_name:focus, #search_dept:focus, #search_day:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 6px rgba(52, 152, 219, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    input[type="text"], input[type="time"], select, button, #search_name, #search_dept, #search_day {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div id="form-container">
+        <button type="button" class="collapsible">Add Teacher</button>
+        <div class="content">
+            <form id="teacher-form">
+                <input type="hidden" id="teacher_id" name="teacher_id">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required><br><br>
+
+                <label for="short_name">Short Name:</label>
+                <input type="text" id="short_name" name="short_name" required><br><br>
+
+                <label for="course_taught">Course Taught:</label>
+                <input type="text" id="course_taught" name="course_taught"><br><br>
+
+                <label for="course_code">Course Code:</label>
+                <input type="text" id="course_code" name="course_code"><br><br>
+
+                <label for="dept">Department:</label>
+                <input type="text" id="dept" name="dept" required><br><br>
+
+                <label for="start_time">Start Time:</label>
+                <input type="time" id="start_time" name="start_time" required><br><br>
+
+                <label for="end_time">End Time:</label>
+                <input type="time" id="end_time" name="end_time" required><br><br>
+
+                <label for="day">Day:</label>
+                <select id="day" name="day" required>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select><br><br>
+
+                <label for="room_no">Room No:</label>
+                <input type="text" id="room_no" name="room_no" required><br><br>
+
+                <label for="building_name">Building Name:</label>
+                <input type="text" id="building_name" name="building_name"><br><br> <!-- New attribute -->
+
+                <button type="submit">Add Teacher</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="table-container">
+        <h2>Teacher List</h2>
+        <button onclick="clearTeachers()">Clear All Teachers</button>
+        <input type="text" id="search_name" placeholder="Search by name">
+        <input type="text" id="search_dept" placeholder="Search by department">
+        <input type="text" id="search_day" placeholder="Search by day">
+        <button onclick="searchTeachers()">Search</button>
+
+        <table id="teacher-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Short Name</th>
+                    <th>Course Taught</th>
+                    <th>Course Code</th>
+                    <th>Dept.</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Day</th>
+                    <th>Room No</th>
+                    <th>Building Name</th> <!-- New attribute -->
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic rows will be appended here using JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var coll = document.getElementsByClassName("collapsible");
+            for (var i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
